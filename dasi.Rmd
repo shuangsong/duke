@@ -1,0 +1,96 @@
+---
+title: "Duke dasi project"
+author: "Stephanie S"
+date: "Friday, April 10, 2015"
+output: html_document
+---
+1, Introduction:
+---
+Is there have a relationship between age(variable name: age)with job satisfaction(variable name: satjob) (Negative or positive relationship between them)? This is an interesting question for the reason that it is helpful for society study, and further exploration. This project conducted a sociological survey used to collect data on demographic characteristics and attitudes of residents of the United States. Why is it interesting to explore? This data are used in numerous newspaper, magazine, and journal articles, by legislators, policy makers, and educators.
+
+2, About data:
+---
+
+The data was collected by given a questionnaires that has to be filled/answered.There are observation : 57061 (cases) and 144 columns.Variables are age and satjob(codebook: satisfaction of job).
+
+variable: age (numerical variable)----Age of respondent(min=18, max=89, mean=45.7, median=43.0, NAs=202). 
+
+variable: satjob(categorical variable)---it is the satisfaction of job(Very Satisfied , Mod. Satisfied, A Little Dissat, Very Dissatisfied, NA's)( see the link for more information  http://d396qusza40orc.cloudfront.net/statistics%2Fproject%2Fgss1.html).
+
+
+```{r 1st chunck, cache=TRUE, echo=TRUE}
+rm(list=ls())
+load(url("http://bit.ly/dasi_gss_data"))
+dim(gss)
+```
+
+The type of study is observational study for the reason it is tooks a questionnaires to be filled. ANOVA and pairwise tests (theoretical only) to analysis those relationship between variables. Population of interest is all average age with different satisfactions on jobs(different group of attitude). The finding can generalize to that population for the reason it uses collected data draw from survey. Potential bias shoud be some individuals who are randomly selected but they are not respond to the survey;individuals who are easily accessible are more likely to be included in the sample. There can be a causal link between age and satjob since it uses hypothesis test and compare each group means and find there is at least one group are different,thus age have causal link with satisfaciton of job.
+
+3, Exploratory analysis: 
+---
+Brief table summary of variable satjob and create a boxplot side by side to visulaize data.
+Clean data first:
+
+```{r 2nd chunck, cache=TRUE, echo=TRUE}
+library(ggplot2)
+target<-gss[,c("caseid","age","satjob")]
+head(target)
+#plot(target$satjob, target$age)
+#remove row contain NAs. Cleaning data: 
+target<-target[complete.cases(target),]
+table(target$satjob)
+g<-ggplot(target,aes(satjob, age)) +
+        geom_boxplot( data=target, stat="boxplot", position ="dodge", 
+                     outlier.shape=16, outlier.size=2) +
+        ggtitle("Relationship between age and satisfaction of jobs(boxplot)") +
+        labs(x="satisfaction of jobs",y="age of pupulation") +
+        geom_hline(aes(yintercept=37), linetype="dashed", colour="#BB0000")
+print(g)
+#clearer to see means of each group: 
+tapply(target$age, target$satjob, mean)  
+```
+
+The finding is that among groups of satjob, the means of ages are less likely to be significant from each other. Next step is to use ANOVA(F statistic) to analysis those data.
+
+4, Inference:
+---
+Using ANOVA, we state that null hypothesis is all the means ages of different group of satisfaction on their jobs are equal. So the alternative hypothesis is at least one pair of means are different. Condition for ANOVA is the groups of satjob are independent from each other(no pairing); also distribution of response variable within each group appear approximately normal, thus it fits for ANOVA.
+
+
+```{r 3rd chunck, cache=TRUE, echo=TRUE}
+
+```
+
+```{r 4th chunck, cache=TRUE, echo=TRUE}
+
+```
+
+```{r 5th chunck, cache=TRUE, echo=TRUE}
+
+```
+
+```{r 6th chunck, cache=TRUE, echo=TRUE}
+
+```
+
+```{r 7th chunck, cache=TRUE, echo=TRUE}
+
+```
+References: 
+---
+
+1, Where data from : http://bit.ly/dasi_gss_data 
+
+2, Data citation : http://www.icpsr.umich.edu/icpsrweb/ICPSR/studies/34802/version/1
+
+Appendix: 
+---
+```{r 8th chunck, cache=TRUE, echo=TRUE}
+head(target, 20)
+
+```
+
+
+
+
+

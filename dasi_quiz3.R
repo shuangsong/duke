@@ -28,6 +28,7 @@ summary(fit3)
 #DASI
 #quiz 3
 #q14
+#q value 
 z<-(134-130)/(17/sqrt(35))
 2*pnorm(-abs(z))
 

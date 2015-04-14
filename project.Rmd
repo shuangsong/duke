@@ -1,0 +1,118 @@
+---
+title: "Duke dasi project"
+author: "Stephanie S"
+date: "Friday, April 10, 2015"
+output: html_document
+---
+1, Introduction:
+---
+Is there have a relationship between age(variable name: age)with job satisfaction(variable name: satjob) (Negative or positive relationship between them)? This is an interesting question for the reason that it is helpful for society study, and further exploration. This project conducted a sociological survey used to collect data on demographic characteristics and attitudes of residents of the United States. Why is it interesting to explore? This data are used in numerous newspaper, magazine, and journal articles, by legislators, policy makers, and educators.
+
+2, About data:
+---
+
+The data was collected by given a questionnaires that has to be filled/answered.There are observation : 57061 (cases) and 144 columns.Variables are age and satjob(codebook: satisfaction of job).
+
+variable: age (numerical variable)----Age of respondent(min=18, max=89, mean=45.7, median=43.0, NAs=202). 
+
+variable: satjob(categorical variable)---it is the satisfaction of job(Very Satisfied , Mod. Satisfied, A Little Dissat, Very Dissatisfied, NA's)( see the link for more information  http://d396qusza40orc.cloudfront.net/statistics%2Fproject%2Fgss1.html).
+
+
+```{r 1st chunck, cache=TRUE, echo=TRUE}
+rm(list=ls())
+load(url("http://bit.ly/dasi_gss_data"))
+dim(gss)
+```
+
+The type of study is observational study for the reason it is tooks a questionnaires to be filled. ANOVA and pairwise tests (theoretical only) to analysis those relationship between variables. Population of interest is all average age with different satisfactions on jobs(different group of attitude). The finding can generalize to that population for the reason it uses collected data draw from survey. Potential bias shoud be some individuals who are randomly selected but they are not respond to the survey;individuals who are easily accessible are more likely to be included in the sample. There can be a causal link between age and satjob since it uses hypothesis test and compare each group means and find there is at least one group are different,thus age have causal link with satisfaciton of job.
+
+3, Exploratory analysis: 
+---
+Brief table summary of variable satjob and create a boxplot side by side to visulaize data.
+Clean data first:
+
+```{r 2nd chunck, cache=TRUE, echo=TRUE}
+library(ggplot2)
+target<-gss[,c("caseid","age","satjob")] #target is a data frame that contain only var we want
+head(target)
+#remove row contain NAs. Cleaning data: 
+target_clean<-target[complete.cases(target),]
+table(target_clean$satjob)
+g<-ggplot(target_clean,aes(satjob, age)) +
+        geom_boxplot( data=target_clean, stat="boxplot", position ="dodge", 
+                     outlier.shape=16, outlier.size=2) +
+        ggtitle("Relationship between age and satisfaction of jobs(boxplot)") +
+        labs(x="satisfaction of jobs",y="age of pupulation") +
+        geom_hline(aes(yintercept=37), linetype="dashed", colour="#BB0000")
+print(g)
+
+```
+
+The finding is that among groups of satjob, the means of ages are less likely to be significant from each other. Next step is to use ANOVA(F statistic) to analysis those data.
+
+4, Inference:
+---
+Using ANOVA, we state that null hypothesis is all the means ages of different group of satisfaction on their jobs are equal. So the alternative hypothesis is at least one pair of means are different. Condition for ANOVA is the groups of satjob are independent from each other(no pairing); also distribution of response variable within each group appear approximately normal, thus it fits for ANOVA. 
+
+From project requirement: we use method for one numerical (age) and one categorical variable(satjob) (with 4 levels)hypothesis test only
+
+* compare means across several groups
+    
+* no defined parameter of interest, ANOVA and pairwise tests (theoretical only)
+
+
+```{r 3rd chunck, cache=TRUE, echo=TRUE}
+#clearer to see means of each group: 
+tapply(target_clean$age, target_clean$satjob, mean) 
+tapply(target_clean$age, target_clean$satjob, sd) 
+```
+
+Oneway ANOVA: 
+
+```{r 4th chunck, cache=TRUE, echo=TRUE}
+s<-lm(age~satjob, data=target)
+summary(s)
+anova(s) #summary(aov.out) same
+aov.out<-aov(age~satjob, target)
+
+```
+Calculate p-value in ANOVA: 
+
+```{r 5th chunck, cache=TRUE, echo=TRUE}
+pf(343.65,3,41149, lower.tail=FALSE)
+#Because pvalue is smaller than alpha. We will reject null hypothesis.
+```
+
+Pairwise test:
+```{r 6th chunck, cache=TRUE, echo=TRUE}
+pairwise.t.test(target$age, target$satjob, p.adj="none")
+
+```
+
+
+
+Conclusion:
+
+
+(1)It means that we will reject null hypothesis, and the conclusion is there is at least one group of means that are significant different from each other. 
+(2)We assumes that alpha level is 0.05 for all tests. From pairwise t test, we can see that age means of A little satisfied group has not significant different with group Very Dissatisfied. There are significant difference on means of age(between Mod satisfied and Very satisfied, between A little satisfied and very satisfied, between Very dissatisfied and very satisfied, between Mod satisfied and a little satisfied, between very dissatisfied and mod satisfied). 
+
+
+References: 
+---
+
+1, Where data from : http://bit.ly/dasi_gss_data 
+
+2, Data citation : http://www.icpsr.umich.edu/icpsrweb/ICPSR/studies/34802/version/1
+
+Appendix: 
+---
+```{r 8th chunck, cache=TRUE, echo=TRUE}
+head(target_clean, 50)
+
+```
+
+
+
+
+

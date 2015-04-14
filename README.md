@@ -4,10 +4,12 @@ data analysis and statistical inference
 What this repo consist?
 ---
 -quiz
+
 -lab
+
 -project
--readme
--plots from project
+
+-README
 
 References: 
 ---
@@ -16,7 +18,7 @@ References:
 
 2, Data citation : http://www.icpsr.umich.edu/icpsrweb/ICPSR/studies/34802/version/1
 
-
+3, Rmd file: https://github.com/shuangsong/duke/blob/master/project.Rmd
 
 
 

@@ -90,11 +90,11 @@ pairwise.t.test(target$age, target$satjob, p.adj="none")
 ```
 
 
-
 Conclusion:
-
+---
 
 (1)It means that we will reject null hypothesis, and the conclusion is there is at least one group of means that are significant different from each other. 
+
 (2)We assumes that alpha level is 0.05 for all tests. From pairwise t test, we can see that age means of A little satisfied group has not significant different with group Very Dissatisfied. There are significant difference on means of age(between Mod satisfied and Very satisfied, between A little satisfied and very satisfied, between Very dissatisfied and very satisfied, between Mod satisfied and a little satisfied, between very dissatisfied and mod satisfied). 
 
 

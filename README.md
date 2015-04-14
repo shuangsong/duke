@@ -20,6 +20,8 @@ References:
 
 3, Rmd file: https://github.com/shuangsong/duke/blob/master/project.Rmd
 
+4, Rpubs: http://rpubs.com/shuangsong/72797
+
 
 
 

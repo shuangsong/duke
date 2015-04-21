@@ -110,35 +110,64 @@ plot(mlb11$homeruns~mlb11$runs)
 abline(fit2)
 
 
+#lab7
+load(url("http://www.openintro.org/stat/data/evals.RData"))
+head(evals)
+hist(evals$score)
+mean(evals$score,na.rm=TRUE)
+median(evals$score,na.rm=TRUE)
+plot(evals$score ~ evals$bty_avg)
 
+fit<-lm(evals$score~evals$bty_avg)
+abline(fit)
+#plot residuals
+plot(fit$residuals)
+hist(fit$residuals)
+plot(fit$residuals~fit$fitted)
+m_bty_gen <- lm(score ~ bty_avg + gender, data = evals)
+summary(m_bty_gen)
+multiLines(m_bty_gen)
+#question 8
+#Which of the following is the correct order of the three levels of rank if we were to order 
+#them from lowest predicted course evaluation score to highest predicted course evaluation score? 
+three<-lm(score~bty_avg+rank, data=evals)
+multiLines(three)
+#Tenure Track, Tenured, Teaching
+#question 9
+#Which of the following is the correct interpretation of the coefficient associated with the ethnicity variable.
 
+non_min<-evals[evals$ethnicity=="not minority",]
+min<-evals[evals$ethnicity=="minority",]
+mean_non<-mean(non_min$score, na.rm=TRUE)
+mean_min<-mean(min$score, na.rm=TRUE)
+#question 10
+#try dropping the next variable from the full model (ethnicity):
+m_full <- lm(score ~ rank + ethnicity + gender + language + age + cls_perc_eval 
+             + cls_students + cls_level + cls_profs + cls_credits + bty_avg, data = evals)
+summary(m_full)
+#remove bty_avg from full model: 
+try1<- lm(score ~ rank + ethnicity + gender + language + age + cls_perc_eval 
+             + cls_students + cls_level + cls_profs + cls_credits, data = evals)
+summary(try1)$adj.r.squared
+#remove cls profs
+try2<- lm(score ~ rank + ethnicity + gender + language + age + cls_perc_eval 
+          + cls_students + cls_level + cls_credits + bty_avg, data = evals)
 
+summary(try2)$adj.r.squared
+#remove cls students: 
+try3<- lm(score ~ rank + ethnicity + gender + language + age + cls_perc_eval 
+           + cls_level + cls_profs + cls_credits + bty_avg, data = evals)
 
+summary(try3)$adj.r.squared
 
+#remove rank: 
 
+try4<- lm(score ~ ethnicity + gender + language + age + cls_perc_eval 
+          + cls_students + cls_level + cls_profs + cls_credits + bty_avg, data = evals)
 
+summary(try4)$adj.r.squared
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#remove cls_profs yields highest adj R^2.
 
 
 

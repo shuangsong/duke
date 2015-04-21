@@ -1,5 +1,5 @@
 ---
-title: "Duke dasi project"
+title: "Duke DASI project"
 author: "Stephanie S"
 date: "Friday, April 10, 2015"
 output: html_document
@@ -24,7 +24,7 @@ load(url("http://bit.ly/dasi_gss_data"))
 dim(gss)
 ```
 
-The type of study is observational study for the reason it is tooks a questionnaires to be filled. ANOVA and pairwise tests (theoretical only) to analysis those relationship between variables. Population of interest is all average age with different satisfactions on jobs(different group of attitude). The finding can generalize to that population for the reason it uses collected data draw from survey. Potential bias shoud be some individuals who are randomly selected but they are not respond to the survey;individuals who are easily accessible are more likely to be included in the sample. There can be a causal link between age and satjob since it uses hypothesis test and compare each group means and find there is at least one group are different,thus age have causal link with satisfaciton of job.
+The type of study is observational study for the reason it is tooks a questionnaires to be filled. ANOVA and pairwise tests to analysis those relationship between variables. Population of interest is all average age with different satisfactions on jobs(different group of attitude). The finding can generalize to that population for the reason it uses collected data draw from survey. Potential bias shoud be some individuals who are randomly selected but they are not respond to the survey;individuals who are easily accessible are more likely to be included in the sample. There can be a causal link between age and satjob since it uses hypothesis test and compare each group means and find there is at least one group are different,thus age have causal link with satisfaciton of job.
 
 3, Exploratory analysis: 
 ---
@@ -56,9 +56,9 @@ Using ANOVA, we state that null hypothesis is all the means ages of different gr
 
 From project requirement: we use method for one numerical (age) and one categorical variable(satjob) (with 4 levels)hypothesis test only
 
-* compare means across several groups
+* compare means across several groups;
     
-* no defined parameter of interest, ANOVA and pairwise tests (theoretical only)
+* no defined parameter of interest, ANOVA and pairwise tests.
 
 
 ```{r 3rd chunck, cache=TRUE, echo=TRUE}
@@ -70,10 +70,10 @@ tapply(target_clean$age, target_clean$satjob, sd)
 Oneway ANOVA: 
 
 ```{r 4th chunck, cache=TRUE, echo=TRUE}
-s<-lm(age~satjob, data=target)
+s<-lm(age~satjob, data=target_clean)
 summary(s)
 anova(s) #summary(aov.out) same
-aov.out<-aov(age~satjob, target)
+aov.out<-aov(age~satjob, target_clean)
 
 ```
 Calculate p-value in ANOVA: 
@@ -85,12 +85,12 @@ pf(343.65,3,41149, lower.tail=FALSE)
 
 Pairwise test:
 ```{r 6th chunck, cache=TRUE, echo=TRUE}
-pairwise.t.test(target$age, target$satjob, p.adj="none")
+pairwise.t.test(target_clean$age, target_clean$satjob, p.adj="none")
 
 ```
 
 
-Conclusion:
+5, Conclusion:
 ---
 
 (1)It means that we will reject null hypothesis, and the conclusion is there is at least one group of means that are significant different from each other. 
@@ -98,14 +98,14 @@ Conclusion:
 (2)We assumes that alpha level is 0.05 for all tests. From pairwise t test, we can see that age means of A little satisfied group has not significant different with group Very Dissatisfied. There are significant difference on means of age(between Mod satisfied and Very satisfied, between A little satisfied and very satisfied, between Very dissatisfied and very satisfied, between Mod satisfied and a little satisfied, between very dissatisfied and mod satisfied). 
 
 
-References: 
+6, References: 
 ---
 
 1, Where data from : http://bit.ly/dasi_gss_data 
 
 2, Data citation : http://www.icpsr.umich.edu/icpsrweb/ICPSR/studies/34802/version/1
 
-Appendix: 
+7, Appendix: 
 ---
 ```{r 8th chunck, cache=TRUE, echo=TRUE}
 head(target_clean, 50)
